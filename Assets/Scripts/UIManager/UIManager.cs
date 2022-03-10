@@ -14,8 +14,6 @@ public class UIManager : MonoBehaviour
     // User display
     public FirebaseUser User;
 
-
-    public TMP_Text usernameText;
     //Screen variables
     [Header("Screens")]
     //Screen object variables
@@ -29,15 +27,10 @@ public class UIManager : MonoBehaviour
     public GameObject characterUI;
     public GameObject userOptionsUI;
 
-
-    public GameObject genero;
     //Backgrounds variables
     [Header("Backgrounds")]
     public GameObject initialBackground;
     public GameObject menuBackground;
-    public bool isInitialBackground = false;
-
-
 
     private void Awake()
     {
@@ -53,92 +46,184 @@ public class UIManager : MonoBehaviour
     }
 
     //Functions to change the login screen UI
-    public void LoginScreen() //Back button
-    {
-        registerUI.SetActive(false);
-        loginUI.SetActive(true);
-    }
-    public void RegisterScreen() // Regester button
-    {
-        loginUI.SetActive(false);
-        registerUI.SetActive(true);
 
-        //para el select de genero
-        //var genero = transform.GetComponent<genero>();
-        //genero.options.Clear();
-    }
 
-    public void StartScreenLogin()
-    {
-        loginUI.SetActive(false);
-        menuUI.SetActive(true);
-    }
-
-    public void StartScreenRegister()
-    {
-        registerUI.SetActive(false);
-        menuUI.SetActive(true);
-    }
+    /*
+     * @name MainMenuScreen
+     * @function: Move the user from start game to principal menu (login, quit, register)
+     * Use: yes - 1
+     */
 
     public void MainMenuScreen()
     {
         startUI.SetActive(false);
         menuUI.SetActive(true);
     }
-
-    public void UserToLoginScreen()
+    /*
+     * @name LoginScreen
+     * @function: Move the user from principal menu to login (login, quit, register)
+     * Use: yes - 2
+     */
+    public void LoginScreen()
     {
-        userUI.SetActive(false);
+        menuUI.SetActive(false);
         loginUI.SetActive(true);
     }
 
-    public void LevelsToUserScreen()
+    /*
+     * @name StartScreenLogin
+     * @function: Move the user from login form to principal menu (login, quit, register)
+     * Use: yes - 3
+     */
+    public void MenuScreenFromLogin()
     {
-        //usernameText.text = User.DisplayName;
-        levelsUI.SetActive(false);
-        userUI.SetActive(true);
-    }
-    public void LevelsScreen()
-    {
-        userUI.SetActive(false);
-        levelsUI.SetActive(true);
-    }
-    public void tutorialScreen()
-    {
-        levelsUI.SetActive(false);
-        tutorialUI.SetActive(true);
+        loginUI.SetActive(false);
+        menuUI.SetActive(true);
     }
 
-    public void tutorialToLevelsScreen()
+    /*
+     * @name RegisterScreen
+     * @function: Move the user from principal menu to register (login, quit, register)
+     * Use: yes - 4
+     */
+    public void RegisterScreen()
     {
-        tutorialUI.SetActive(false);
-        levelsUI.SetActive(true);
+        menuUI.SetActive(false);
+        registerUI.SetActive(true);
     }
 
-    public void SelectCharacterScreen()
+    /*
+     * @name MenuScreenFromRegister
+     * @function: Move the user from register to principal menu (login, quit, register)
+     * Use: yes - 5
+     */
+    public void MenuScreenFromRegister()
     {
-        characterUI.SetActive(true);
         registerUI.SetActive(false);
+        menuUI.SetActive(true);
     }
 
+    /*
+    * @name OptionsScreen
+    * @function: Move the user from login to options (cases, forum, settings)
+    * Use: yes - 6
+    */
+    public void OptionsScreen()
+    {
+        loginUI.SetActive(false);
+        userOptionsUI.SetActive(true);
+    }
+
+    /*
+    * @name UserScreen
+    * @function: Move the user from login to user menu (case 1)
+    * Use: yes - 7
+    */
     public void UserScreen()
     {
         userOptionsUI.SetActive(false);
         userUI.SetActive(true);
     }
 
-    public void UserOptionsScreen()
+    /*
+    * @name OptionsScreenFromUser
+    * @function: Move the user from user menu to options (cases, forum, settings)
+    * Use: yes - 8
+    */
+    public void OptionsScreenFromUser()
     {
-        characterUI.SetActive(false);
+        userUI.SetActive(false);
         userOptionsUI.SetActive(true);
     }
 
+    /*
+    * @name LoginScreenFromRegister
+    * @function: Move the user from characters to login (when the user is created)
+    * Use: yes - 9
+    */
+    public void LoginScreenFromCharacters() //Back button 
+    {
+        characterUI.SetActive(false);
+        loginUI.SetActive(true);
+    }
+
+    /*
+    * @name LevelsToUserScreen
+    * @function: Move the user from levels to user menu (case 1)
+    * Use: yes - 10
+    */
+    public void LevelsToUserScreen()
+    {
+        levelsUI.SetActive(false);
+        userUI.SetActive(true);
+    }
+
+    /*
+    * @name TutorialScreen
+    * @function: Move the user from levels to the tutorial ()
+    * Use: yes - 11
+    */
+
+    public void TutorialScreen()
+    {
+        levelsUI.SetActive(false);
+        tutorialUI.SetActive(true);
+    }
+
+    /*
+    * @name TutorialToLevelsScreen
+    * @function: Move the user from tutorial to the levels ()
+    * Use: yes - 12
+    */
+
+    public void TutorialToLevelsScreen()
+    {
+        tutorialUI.SetActive(false);
+        levelsUI.SetActive(true);
+    }
+
+
+    /*
+    * @name LevelsScreen
+    * @function: Move the user from select case to the levels ()
+    * Use: yes - 13
+    */
+
+    public void LevelsScreen()
+    {
+        userUI.SetActive(false);
+        levelsUI.SetActive(true);
+    }
+
+
+    /*
+   * @name SelectCharacterScreen
+   * @function: Move the user from register to select the character()
+   * Use: yes - 14
+   */
+    public void SelectCharacterScreen()
+    {
+        characterUI.SetActive(true);
+        registerUI.SetActive(false);
+    }
+
+    /*
+  * @name BackgroundChanger
+  * @function: Change the initial background to the second
+  * Use: yes - 15
+  */
     public void BackgroundChanger()
     {
         initialBackground.SetActive(false);
         menuBackground.SetActive(true);
 
     }
+
+    /*
+ * @name BackgroundChangerInitial
+ * @function: Change the second for the initial backgroundå
+ * Use: yes - 15
+ */
 
     public void BackgroundChangerInitial()
     {

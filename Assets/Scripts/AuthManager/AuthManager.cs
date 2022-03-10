@@ -58,16 +58,6 @@ public class AuthManager : MonoBehaviour
     public GameObject femaleImageUserMenu;
     public GameObject maleImageUserMenu;
 
-
-    //public TMP_InputField usernameField;
-    //public TMP_InputField xpField;
-    //public TMP_InputField killsField;
-    //public TMP_InputField deathsField;
-    //public GameObject scoreElement;
-    //public Transform scoreboardContent;
-
-
-
     void Awake()
     {
         //Check that all of the necessary dependencies for Firebase are present on the system
@@ -92,7 +82,6 @@ public class AuthManager : MonoBehaviour
         //Set the authentication instance object
         auth = FirebaseAuth.DefaultInstance;
         DBreference = FirebaseDatabase.DefaultInstance.RootReference;
-        Debug.Log(DBreference);
     }
 
     //Function for the login button
@@ -111,11 +100,7 @@ public class AuthManager : MonoBehaviour
     //Function for the save button
     public void SaveDataButton()
     {
-        // StartCoroutine(UpdateUsernameAuth(usernameField.text));
-        //StartCoroutine(UpdateGenderDatabase("Male"));
-        //StartCoroutine(UpdateXp(int.Parse(xpField.text)));
-        //StartCoroutine(UpdateKills(int.Parse(killsField.text)));
-        //StartCoroutine(UpdateDeaths(int.Parse(deathsField.text)));
+
     }
 
     public void SetGenderMaleDataButton()
@@ -131,7 +116,6 @@ public class AuthManager : MonoBehaviour
     private IEnumerator Login(string _email, string _password)
     {
         //Call the Firebase auth signin function passing the email and password
-        Debug.Log(_email + _password);
         var LoginTask = auth.SignInWithEmailAndPasswordAsync(_email, _password);
 
         //Wait until the task completes
@@ -179,15 +163,15 @@ public class AuthManager : MonoBehaviour
             User = LoginTask.Result;
             Debug.LogFormat("User signed in successfully: {0} ({1})", User.DisplayName, User.Email);
             warningLoginText.text = "";
-            confirmLoginText.text = "Sesión Iniciada";
+            confirmLoginText.text = "¡Sesión Iniciada!";
+
             // setting usernametext
             usernameText.text = User.DisplayName;
             usernameText2.text = User.DisplayName;
             userNameTextOptions.text = User.DisplayName;
             StartCoroutine(LoadUserMenu());
             yield return new WaitForSeconds(2);
-            loginUI.SetActive(false);
-            userOptionUI.SetActive(true);
+            UIManager.instance.OptionsScreen();
 
 
         }
@@ -255,7 +239,7 @@ public class AuthManager : MonoBehaviour
                     //Create a user profile and set the username
                     UserProfile profile = new UserProfile { DisplayName = _username };
 
-                    //Call the Firebase auth update user profile function passing the profile with the username
+                    //Call the Firebase auth updatUserOptionsScreene user profile function passing the profile with the username
                     var ProfileTask = User.UpdateUserProfileAsync(profile);
                     //Wait until the task completes
                     yield return new WaitUntil(predicate: () => ProfileTask.IsCompleted);
@@ -293,8 +277,8 @@ public class AuthManager : MonoBehaviour
         }
         else
         {
-            //Database username is now updated
-            UIManager.instance.UserOptionsScreen();
+            //Database username is now updated           
+            UIManager.instance.LoginScreenFromCharacters();
         }
     }
 
@@ -312,30 +296,9 @@ public class AuthManager : MonoBehaviour
         else if (DBTask.Result.Value == null)
         {
             Debug.Log("No hay información");
-            //No data exists yet
-            //usernameText.text = "0";
-            //xpField.text = "0";
-            //killsField.text = "0";
-            //deathsField.text = "0";
-            //UIManager.instance.SelectCharacterScreen();
         }
         else
         {
-            //Data has been retrieved
-            //DataSnapshot snapshot = DBTask.Result;
-
-            //Debug.Log(snapshot.Child("gender").Value.ToString());
-            //if(snapshot.Child("gender").Value.ToString() == null)
-            //{
-            //    UIManager.instance.UserScreen();
-            //}else
-            //{
-
-            // usernameText.text = snapshot.Child("gender").Value.ToString();
-            //}
-            //xpField.text = snapshot.Child("xp").Value.ToString();
-            //killsField.text = snapshot.Child("kills").Value.ToString();
-            //deathsField.text = snapshot.Child("deaths").Value.ToString();
         }
     }
 
@@ -371,15 +334,10 @@ public class AuthManager : MonoBehaviour
             }
             else if(snapshot.Child("gender").Value.ToString() == "Femenino")
             {
+                femaleImageUserMenu.SetActive(true);
+                femaleImage.SetActive(true);
                 maleImage.SetActive(false);
                 maleImageUserMenu.SetActive(false);
-                femaleImage.SetActive(true);
-                femaleImageUserMenu.SetActive(true);
-                // usernameText.text = snapshot.Child("gender").Value.ToString();
-                //}
-                //xpField.text = snapshot.Child("xp").Value.ToString();
-                //killsField.text = snapshot.Child("kills").Value.ToString();
-                //deathsField.text = snapshot.Child("deaths").Value.ToString();
             }
 
         }
