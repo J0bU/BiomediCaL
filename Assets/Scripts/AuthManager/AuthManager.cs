@@ -10,12 +10,6 @@ using UnityEngine.SceneManagement;
 
 public class AuthManager : MonoBehaviour
 {
-    // Data about screens
-    [Header("Screens")]
-    public GameObject userUI;
-    public GameObject loginUI;
-    public GameObject userUI2;
-    public GameObject userOptionUI;
 
     //Firebase variables
     [Header("Firebase")]
@@ -43,13 +37,11 @@ public class AuthManager : MonoBehaviour
 
     //User Data variables
     [Header("UserData")]
-    public TextMeshProUGUI buttonMale;
-    public TextMeshProUGUI buttonFemale;
     public TMP_Text femaleValue;
     public TMP_Text maleValue;
-    public TMP_Text usernameText;
-    public TMP_Text usernameText2;
-    public TMP_Text userNameTextOptions;
+    public TMP_Text userNameCase;
+    public TMP_Text userNameLevels;
+    public TMP_Text userNameCaseOptions;
 
     //User Data Images
     [Header("GenderUserImages")]
@@ -57,6 +49,8 @@ public class AuthManager : MonoBehaviour
     public GameObject maleImage;
     public GameObject femaleImageUserMenu;
     public GameObject maleImageUserMenu;
+    public GameObject femaleImageCase;
+    public GameObject maleImageCase;
 
     void Awake()
     {
@@ -129,28 +123,28 @@ public class AuthManager : MonoBehaviour
             AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
 
             //string message = "Login Failed!";
-            string message = "Ingreso fallido";
+            string message = "INGRESO FALLIDO";
             switch (errorCode)
             {
                 case AuthError.MissingEmail:
                     //message = "Missing Email";
-                    message = "Ingrese el correo";
+                    message = "INGRESE UN CORREO";
                     break;
                 case AuthError.MissingPassword:
                     //message = "Missing Password";
-                    message = "Ingrese la contraseña";
+                    message = "INGRESE LA CONTRASEÑA";
                     break;
                 case AuthError.WrongPassword:
                     //message = "Wrong Password";
-                    message = "Contraseña incorrecta";
+                    message = "CONTRASEÑA INCORRECTA";
                     break;
                 case AuthError.InvalidEmail:
                     //message = "Invalid Email";
-                    message = "Correo invalido";
+                    message = "CORREO NO VÁLIDO";
                     break;
                 case AuthError.UserNotFound:
                     //message = "Account does not exist";
-                    message = "Este usuario no se encuentra registrado";
+                    message = "ESTE USUARIO NO SE ENCUENTRA REGISTRADO";
                     break;
             }
             confirmLoginText.text = "";
@@ -163,12 +157,12 @@ public class AuthManager : MonoBehaviour
             User = LoginTask.Result;
             Debug.LogFormat("User signed in successfully: {0} ({1})", User.DisplayName, User.Email);
             warningLoginText.text = "";
-            confirmLoginText.text = "¡Sesión Iniciada!";
+            confirmLoginText.text = "¡SESIÓN INICIADA!";
 
-            // setting usernametext
-            usernameText.text = User.DisplayName;
-            usernameText2.text = User.DisplayName;
-            userNameTextOptions.text = User.DisplayName;
+            // setting userNameCase
+            userNameCase.text = User.DisplayName;
+            userNameLevels.text = User.DisplayName;
+            userNameCaseOptions.text = User.DisplayName;
             StartCoroutine(LoadUserMenu());
             yield return new WaitForSeconds(2);
             UIManager.instance.OptionsScreen();
@@ -183,13 +177,13 @@ public class AuthManager : MonoBehaviour
         {
             //If the username field is blank show a warning
             //warningRegisterText.text = "Missing Username";
-            warningRegisterText.text = "Ingrese un nombre de usuario";
+            warningRegisterText.text = "INGRESE UN NOMBRE DE USUARIO";
         }
         else if (passwordRegisterField.text != passwordRegisterVerifyField.text)
         {
             //If the password does not match show a warning
             //warningRegisterText.text = "Password Does Not Match!";
-            warningRegisterText.text = "las contraseñas no coinciden";
+            warningRegisterText.text = "LAS CONTRASEÑAS NO COINCIDEN";
         }
         else
         {
@@ -206,24 +200,24 @@ public class AuthManager : MonoBehaviour
                 AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
 
                 //string message = "Register Failed!";
-                string message = "Registro fallido";
+                string message = "REGISTRO FALLIDO";
                 switch (errorCode)
                 {
                     case AuthError.MissingEmail:
                         //message = "Missing Email";
-                        message = "Ingrese el correo";
+                        message = "INGRESE EL CORREO";
                         break;
                     case AuthError.MissingPassword:
                         //message = "Missing Password";
-                        message = "Ingrese una contraseña";
+                        message = "INGRESE UNA CONTRASEÑA";
                         break;
                     case AuthError.WeakPassword:
                         //message = "Weak Password";
-                        message = "Contraseña débil";
+                        message = "CONTRASEÑA DÉBIL - MÍNIMO 6 CARACTERES";
                         break;
                     case AuthError.EmailAlreadyInUse:
                         //message = "Email Already In Use";
-                        message = "Este correo ya se encuentra registrado";
+                        message = "ESTE CORREO YA SE ENCUENTRA REGISTRADO";
                         break;
                 }
                 warningRegisterText.text = message;
@@ -232,7 +226,7 @@ public class AuthManager : MonoBehaviour
             {
                 //User has now been created
                 //Now get the result
-                confirmRegisterText.text = "¡Se registró exitosamente!";
+                confirmRegisterText.text = "¡SE REGISTRÓ EXITOSAMENTE!";
                 User = RegisterTask.Result;
                 if (User != null)
                 {
@@ -254,9 +248,9 @@ public class AuthManager : MonoBehaviour
                     }
                     else
                     {
-                        usernameText.text = User.DisplayName;
-                        usernameText2.text = User.DisplayName;
-                        userNameTextOptions.text = User.DisplayName;
+                        userNameCase.text = User.DisplayName;
+                        userNameLevels.text = User.DisplayName;
+                        userNameCaseOptions.text = User.DisplayName;
                         UIManager.instance.SelectCharacterScreen();
                     }
                 }
@@ -328,16 +322,20 @@ public class AuthManager : MonoBehaviour
 
                 femaleImageUserMenu.SetActive(false);
                 femaleImage.SetActive(false);
+                femaleImageCase.SetActive(false);
                 maleImageUserMenu.SetActive(true);
                 maleImage.SetActive(true);
+                maleImageCase.SetActive(true);
 
             }
             else if(snapshot.Child("gender").Value.ToString() == "Femenino")
             {
                 femaleImageUserMenu.SetActive(true);
                 femaleImage.SetActive(true);
+                femaleImageCase.SetActive(true);
                 maleImage.SetActive(false);
                 maleImageUserMenu.SetActive(false);
+                maleImageCase.SetActive(false);
             }
 
         }
