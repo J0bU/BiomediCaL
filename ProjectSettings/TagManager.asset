@@ -7,6 +7,8 @@ TagManager:
   - Item
   - SecondStep
   - ThirdStep
+  - LastStep
+  - StartSimulation
   layers:
   - Default
   - TransparentFX
