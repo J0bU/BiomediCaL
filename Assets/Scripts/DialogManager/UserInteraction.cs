@@ -7,6 +7,7 @@ public class UserInteraction : MonoBehaviour
     //User Data Messages
     [Header("Messages")]
     public GameObject startSimulationMessage;
+    public GameObject vitalSignsMessage;
 
     [Header("StepsCylindres")]
     public GameObject startSimulation;
@@ -24,6 +25,7 @@ public class UserInteraction : MonoBehaviour
         {
             case "StartSimulation":
                 cardiogramButton.SetActive(true);
+                vitalSignsMessage.SetActive(true);
                 Destroy(other.gameObject);
                 Destroy(startSimulationMessage.gameObject);
                 Destroy(greenBall.gameObject);
