@@ -10,12 +10,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update(){
 
-        // Get A, D keyboards and mouse. 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-        Vector3 movement = transform.right * x + transform.forward * z;
-        characterController.Move(movement * characterSpeed * Time.deltaTime);
+            // Get A, D keyboards and mouse. 
+            float x = Input.GetAxis("Horizontal");
+            float z = Input.GetAxis("Vertical");
+            Vector3 movement = transform.right * x + transform.forward * z;
+            characterController.Move(movement * characterSpeed * Time.deltaTime);
+       
     }
-
-  
 }

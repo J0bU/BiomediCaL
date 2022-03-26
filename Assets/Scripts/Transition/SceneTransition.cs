@@ -6,21 +6,10 @@ using UnityEngine.UI;
 
 public class SceneTransition : MonoBehaviour
 {
+    [Header("Transition")]
     public Animator transitionAnim;
     public string sceneName;
 
-    [Header("Transition")]
-    public GameObject finalHeart;
-    public GameObject lastStep;
-
-    public void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    StartCoroutine(LoadScene());
-        //}
-
-    }
     IEnumerator LoadScene(){
         transitionAnim.SetTrigger("end");
         yield return new WaitForSeconds(1.5f);
@@ -31,7 +20,6 @@ public class SceneTransition : MonoBehaviour
         switch (other.tag){
             case "LastStep":
                 Debug.Log("LastStep");
-                Destroy(finalHeart.gameObject);
                 Destroy(other.gameObject);
                 StartCoroutine(LoadScene());
                 break;

@@ -9,6 +9,9 @@ TagManager:
   - ThirdStep
   - LastStep
   - StartSimulation
+  - RightAnswer
+  - WrongAnswer
+  - FixAnswer
   layers:
   - Default
   - TransparentFX

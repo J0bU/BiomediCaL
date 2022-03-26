@@ -6,25 +6,34 @@ public class CardiogramButton : MonoBehaviour
 {
     [Header("Animation")]
     [SerializeField] public Animator vitalSignsAnimation;
+    [SerializeField] public Animator historyAnimation;
     [SerializeField] private string vitalSignsName= "VitalSignsAnimation";
-    public GameObject cardiogramImage;
+    [SerializeField] private string historyStartName= "HistoryStart";
+    [SerializeField] private string historyEndName= "HistoryEnd";
+
+
     //User Data Messages
     [Header("Messages")]
     public GameObject vitalSignsMessage;
+    public GameObject historyMessage;
+    public GameObject historyArrow;
 
     [Header("Interactable objects")]
     public GameObject cardiogramButton;
-    private bool isActive = true;
     public GameObject answers;
+    public GameObject cardiogramImage;
+    public GameObject redCodeMessage;
+    private bool isActive = true;
+    private bool isHistoryActive = true;
 
     [Header("Sounds")]
     public AudioSource playSound;
 
-    public void SendMessage()
+    public void CheckCardiogram()
     {
-        Debug.Log("Click!");
         vitalSignsMessage.SetActive(false);
         playSound.Stop();
+
         if (isActive)
         {
             cardiogramImage.SetActive(true);
@@ -37,6 +46,23 @@ public class CardiogramButton : MonoBehaviour
             isActive = true;
             cardiogramImage.SetActive(false);
             answers.SetActive(true);
+            redCodeMessage.SetActive(true);
+        }
+    }
+
+    public void CheckHistory()
+    {
+        historyMessage.SetActive(false);
+        historyArrow.SetActive(false);
+        if (isHistoryActive)
+        {
+            historyAnimation.Play(historyStartName, 0, 0.0f);
+            isHistoryActive = !isHistoryActive;
+        }
+        else
+        {
+            historyAnimation.Play(historyEndName, 0, 0.0f);
+            isHistoryActive = !isHistoryActive;
         }
     }
 }

@@ -12,6 +12,7 @@ public class TutorialUserInteraction : MonoBehaviour
     public GameObject thirdMessage;
     public GameObject fourthMessage;
     public GameObject fifthMessage;
+    public GameObject sixthMessage;
 
     [Header("StepsCylindres")]
     public GameObject firstStep;
@@ -61,6 +62,7 @@ public class TutorialUserInteraction : MonoBehaviour
                 Destroy(spaceBar.gameObject);
                 Destroy(heart3.gameObject);
                 fifthMessage.SetActive(true);
+                sixthMessage.SetActive(true);
                 escKey.SetActive(true);
                 finalHeart.SetActive(true);
                 lastStep.SetActive(true);
