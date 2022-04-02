@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PressKey : MonoBehaviour
@@ -22,17 +23,19 @@ public class PressKey : MonoBehaviour
     public GameObject greenObjectTrigger;
     public GameObject redObjectTrigger;
 
-
+    //[Header("PointsSystem")]
+    [SerializeField] private int pointsNumber = 1;
+    [SerializeField] private PointsSystem pointsSystem;
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Y))
         {
+            pointsSystem.MorePoints(pointsNumber);
             nurseCharacter.SetActive(true);
             historyMessage.SetActive(true);
             historyArrow.SetActive(true);
             DisableAnswers();
-            
         }
         else if (Input.GetKeyDown(KeyCode.N))
         {
