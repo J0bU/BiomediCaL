@@ -71,6 +71,7 @@ public class PressKey : MonoBehaviour
             case "FixAnswer":
                 historyMessage.SetActive(true);
                 historyArrow.SetActive(true);
+                nurseCharacter.SetActive(true);
                 Destroy(fixAnswerElement.gameObject);
                 Destroy(fixAnswerTrigger.gameObject);
                 break;

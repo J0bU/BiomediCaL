@@ -26,6 +26,8 @@ public class UIManager : MonoBehaviour
     public GameObject tutorialUI;
     public GameObject characterUI;
     public GameObject userOptionsUI;
+    public GameObject professorOptionsUI;
+    public GameObject scoreboardUI;
 
     //Backgrounds variables
     [Header("Backgrounds")]
@@ -229,6 +231,30 @@ public class UIManager : MonoBehaviour
     {
         initialBackground.SetActive(true);
         menuBackground.SetActive(false);
+    }
+
+    /* -------------- Professor Screens ---------- */
+
+    /*
+* @name ProfessorOptions
+* @function: Move to login screen to professor screen
+* Use: yes - 16
+*/
+    public void ProfessorOptions()
+    {
+        loginUI.SetActive(false);
+        professorOptionsUI.SetActive(true);
+    }
+    /*
+* @name ScoreboardScreen
+* @function: Move to professor screen to database screen
+* Use: yes - 17
+*/
+
+    public void ScoreboardScreen() //Scoreboard button
+    {
+        professorOptionsUI.SetActive(false);
+        scoreboardUI.SetActive(true);
     }
 
 

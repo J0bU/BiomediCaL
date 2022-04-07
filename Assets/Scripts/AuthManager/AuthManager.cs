@@ -4,6 +4,7 @@ using Firebase;
 using Firebase.Database;
 using Firebase.Auth;
 using TMPro;
+using System.Linq;
 using UnityEngine.SceneManagement;
 
 
@@ -42,6 +43,9 @@ public class AuthManager : MonoBehaviour
     public TMP_Text userNameCase;
     public TMP_Text userNameLevels;
     public TMP_Text userNameCaseOptions;
+    public Transform scoreboardContent;
+    public GameObject scoreElement;
+
 
     //User Data Images
     [Header("GenderUserImages")]
@@ -155,17 +159,27 @@ public class AuthManager : MonoBehaviour
             //User is now logged in
             //Now get the result
             User = LoginTask.Result;
-            Debug.LogFormat("User signed in successfully: {0} ({1})", User.DisplayName, User.Email);
-            warningLoginText.text = "";
-            confirmLoginText.text = "¡SESIÓN INICIADA!";
+            if (User.Email == "profesor@gmail.com")
+            {
+                Debug.LogFormat("User signed in successfully: {0} ({1})", User.DisplayName, User.Email);
+                yield return new WaitForSeconds(2);
+                UIManager.instance.ProfessorOptions();
+            }
+            else
+            {
 
-            // setting userNameCase
-            userNameCase.text = User.DisplayName;
-            userNameLevels.text = User.DisplayName;
-            userNameCaseOptions.text = User.DisplayName;
-            StartCoroutine(LoadUserMenu());
-            yield return new WaitForSeconds(2);
-            UIManager.instance.OptionsScreen();
+                Debug.LogFormat("User signed in successfully: {0} ({1})", User.DisplayName, User.Email);
+                warningLoginText.text = "";
+                confirmLoginText.text = "¡SESIÓN INICIADA!";
+
+                // setting userNameCase
+                userNameCase.text = User.DisplayName;
+                userNameLevels.text = User.DisplayName;
+                userNameCaseOptions.text = User.DisplayName;
+                StartCoroutine(LoadUserMenu());
+                yield return new WaitForSeconds(2);
+                UIManager.instance.OptionsScreen();
+            }
 
 
         }
@@ -328,7 +342,7 @@ public class AuthManager : MonoBehaviour
                 maleImageCase.SetActive(true);
 
             }
-            else if(snapshot.Child("gender").Value.ToString() == "Femenino")
+            else if (snapshot.Child("gender").Value.ToString() == "Femenino")
             {
                 femaleImageUserMenu.SetActive(true);
                 femaleImage.SetActive(true);
@@ -340,6 +354,53 @@ public class AuthManager : MonoBehaviour
 
         }
 
+    }
+
+    /* Scoreboard */
+    //Function for the scoreboard button
+    public void ScoreboardButton()
+    {
+        StartCoroutine(LoadScoreboardData());
+    }
+
+    private IEnumerator LoadScoreboardData()
+    {
+        //Get all the usersCollection data ordered by kills amount
+        var DBTask = DBreference.Child("users").OrderByChild("kills").GetValueAsync();
+
+        yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
+
+        if (DBTask.Exception != null)
+        {
+            Debug.LogWarning(message: $"Failed to register task with {DBTask.Exception}");
+        }
+        else
+        {
+            //Data has been retrieved
+            DataSnapshot snapshot = DBTask.Result;
+
+            //Destroy any existing scoreboard elements
+            foreach (Transform child in scoreboardContent.transform)
+            {
+                Destroy(child.gameObject);
+            }
+
+            //Loop through every usersCollection UID
+            foreach (DataSnapshot childSnapshot in snapshot.Children.Reverse<DataSnapshot>())
+            {
+                string username = childSnapshot.Child("username").Value.ToString();
+                int kills = int.Parse(childSnapshot.Child("kills").Value.ToString());
+                int deaths = int.Parse(childSnapshot.Child("deaths").Value.ToString());
+                int xp = int.Parse(childSnapshot.Child("xp").Value.ToString());
+
+                //Instantiate new scoreboard elements
+                GameObject scoreboardElement = Instantiate(scoreElement, scoreboardContent);
+                scoreboardElement.GetComponent<ScoreElement>().NewScoreElement(username, kills, deaths, xp);
+            }
+
+            //Go to scoareboard screen
+            UIManager.instance.ScoreboardScreen();
+        }
     }
 
 }

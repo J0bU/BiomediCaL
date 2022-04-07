@@ -6,11 +6,13 @@ using UnityEngine;
 public class PointsSystem : MonoBehaviour
 {
     private int points;
+    private int wrongPoints;
     private TextMeshProUGUI textMesh;
 
     private void Start()
     {
-        points = 1;
+        points = 0;
+        wrongPoints = 0;
         textMesh = GetComponent<TextMeshProUGUI>();
     }
     private void Update()
@@ -24,8 +26,18 @@ public class PointsSystem : MonoBehaviour
         points += newPoints;
     }
 
+    public void WrongPoints(int newPoints)
+    {
+        wrongPoints += newPoints;
+    }
+
     public int GetPoints()
     {
         return this.points;
+    }
+
+    public int GetWrongPoints()
+    {
+        return this.wrongPoints;
     }
 }
