@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
     public GameObject initialBackground;
     public GameObject menuBackground;
 
+
     private void Awake()
     {
         if (instance == null)
@@ -256,6 +257,5 @@ public class UIManager : MonoBehaviour
         professorOptionsUI.SetActive(false);
         scoreboardUI.SetActive(true);
     }
-
 
 }

@@ -40,6 +40,7 @@ public class PressKey : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.N))
         {
             DisableAnswers();
+            pointsSystem.WrongPoints(pointsNumber);
             fixAnswerElement.SetActive(true);
             fixAnswerTrigger.SetActive(true);
             redCodeMessage.SetActive(true);
